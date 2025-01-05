@@ -14,20 +14,29 @@
         <maven.compiler.version>3.13.0</maven.compiler.version>
 
         <!-- Dependencies -->
+        <slf4j.version>2.0.16</slf4j.version>
         <javalin.version>6.4.0</javalin.version>
         <lombok.version>1.18.36</lombok.version>
         <guice.version>7.0.0</guice.version>
+        <jjwt.version>0.12.6</jjwt.version>
+        <java-dotenv.version>5.2.2</java-dotenv.version>
+
+        <!-- Test Dependencies -->
         <junit.version>5.11.4</junit.version>
         <mockito.version>5.15.2</mockito.version>
 
         <!-- Dependencies Management -->
-        <slf4j.version>2.0.16</slf4j.version>
         <kotlin.version>2.1.0</kotlin.version>
         <jackson.version>2.18.2</jackson.version>
         <guava.version>33.4.0-jre</guava.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
@@ -60,6 +69,30 @@
             <version>${guice.version}</version>
         </dependency>
         <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>java-dotenv</artifactId>
+            <version>${java-dotenv.version}</version>
+        </dependency>
+
+        <!-- Test Dependencies -->
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
@@ -70,11 +103,6 @@
             <artifactId>mockito-core</artifactId>
             <version>${mockito.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>2.0.16</version>
         </dependency>
     </dependencies>
 
@@ -106,11 +134,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
