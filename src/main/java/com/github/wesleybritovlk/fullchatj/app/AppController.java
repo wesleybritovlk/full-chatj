@@ -11,11 +11,17 @@ import io.javalin.openapi.OpenApiResponse;
 import lombok.Builder;
 import lombok.Getter;
 
-public class AppController {
+public interface AppController {
+
     @OpenApi(tags = {
             "App" }, path = "/", summary = "Get app information", description = "Returns general information about the app", responses = {
                     @OpenApiResponse(status = "200", content = @OpenApiContent(from = Response.class))
             })
+    void get(Context ctx);
+
+}
+
+class AppControllerImpl implements AppController {
     public void get(Context ctx) {
         var currentUrl = "%s%s".formatted(ctx.url(), AppConfig.getProperty("app.docsPath"));
         var response = Response.builder()

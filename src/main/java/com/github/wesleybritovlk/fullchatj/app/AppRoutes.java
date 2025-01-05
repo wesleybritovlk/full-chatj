@@ -1,17 +1,24 @@
 package com.github.wesleybritovlk.fullchatj.app;
 
-import io.javalin.Javalin;
+import com.google.inject.Inject;
 
-public class AppRoutes {
+import io.javalin.Javalin;
+import lombok.RequiredArgsConstructor;
+
+public interface AppRoutes {
+    void setup(Javalin app);
+}
+
+@RequiredArgsConstructor(onConstructor = @__(@Inject))
+class AppRoutesImpl implements AppRoutes {
+    private final AppController controller;
 
     private void appController(Javalin app) {
-        var controller = new AppController();
         app.get("/", controller::get);
     }
 
-    public void register(Javalin app) {
+    public void setup(Javalin app) {
         appController(app);
     }
-
 
 }
