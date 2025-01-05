@@ -10,7 +10,6 @@ import io.javalin.openapi.OpenApi;
 import io.javalin.openapi.OpenApiContent;
 import io.javalin.openapi.OpenApiResponse;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 public interface AppController {
@@ -39,12 +38,11 @@ class AppControllerImpl implements AppController {
     }
 }
 
-@Getter
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-class Response {
-    private String name;
-    private String version;
-    private String description;
-    private String documentation;
+record Response(
+        String name,
+        String version,
+        String description,
+        String documentation) {
 }
