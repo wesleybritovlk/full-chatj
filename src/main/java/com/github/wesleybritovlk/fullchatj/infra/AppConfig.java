@@ -6,9 +6,9 @@ import java.util.Properties;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AppConfig {
-    private static Properties loadProperties() {
+    private Properties loadProperties() {
         var properties = new Properties();
         try (var inputStream = AppConfig.class.getClassLoader().getResourceAsStream("application.properties")) {
             properties.load(inputStream);
@@ -18,7 +18,7 @@ public class AppConfig {
         return properties;
     }
 
-    public static String getProperty(String propertyName) {
+    public String getProperty(String propertyName) {
         return loadProperties().getProperty(propertyName);
     }
 }
