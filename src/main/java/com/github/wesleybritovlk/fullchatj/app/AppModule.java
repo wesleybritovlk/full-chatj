@@ -7,7 +7,6 @@ import com.github.wesleybritovlk.fullchatj.infra.AppConfig;
 import com.github.wesleybritovlk.fullchatj.infra.util.UtilModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-import com.google.inject.Singleton;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -21,19 +20,11 @@ public class AppModule extends AbstractModule {
     }
 
     @Provides
-    @Singleton
-    public AppConfig provideAppConfig() {
-        return new AppConfig();
-    }
-
-    @Provides
-    @Singleton
     public Properties provideProperties(AppConfig appConfig) {
         return appConfig.properties();
     }
 
     @Provides
-    @Singleton
     public Dotenv provideDotenv(AppConfig appConfig) {
         return appConfig.dotenv();
     }
