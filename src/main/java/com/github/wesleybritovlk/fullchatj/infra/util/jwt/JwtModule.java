@@ -7,7 +7,7 @@ public class JwtModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(Jwt.class);
-        bind(JwtProvide.class).to(JwtProvideImpl.class);
+        bind(JwtProvider.class).to(JwtProviderImpl.class);
     }
 
 }

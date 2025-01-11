@@ -8,8 +8,6 @@ import com.github.wesleybritovlk.fullchatj.infra.util.UtilModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 public class AppModule extends AbstractModule {
     @Override
     protected void configure() {
@@ -22,10 +20,5 @@ public class AppModule extends AbstractModule {
     @Provides
     public Properties provideProperties(AppConfig appConfig) {
         return appConfig.properties();
-    }
-
-    @Provides
-    public Dotenv provideDotenv(AppConfig appConfig) {
-        return appConfig.dotenv();
     }
 }

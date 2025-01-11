@@ -20,10 +20,6 @@ public class AppConfig {
         return properties;
     }
 
-    public Dotenv dotenv() {
-        return dotenv;
-    }
-
     private void loadEnvProperties() {
         try (InputStream input = AppConfig.class.getClassLoader().getResourceAsStream("application.properties")) {
             if (input == null)

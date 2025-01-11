@@ -20,6 +20,8 @@
         <guice.version>7.0.0</guice.version>
         <jjwt.version>0.12.6</jjwt.version>
         <java-dotenv.version>5.2.2</java-dotenv.version>
+        <eclipselink.version>4.0.5</eclipselink.version>
+        <postgresql.version>42.7.4</postgresql.version>
 
         <!-- Test Dependencies -->
         <junit.version>5.11.4</junit.version>
@@ -89,6 +91,16 @@
             <groupId>io.github.cdimascio</groupId>
             <artifactId>java-dotenv</artifactId>
             <version>${java-dotenv.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.jpa</artifactId>
+            <version>${eclipselink.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
 
         <!-- Test Dependencies -->

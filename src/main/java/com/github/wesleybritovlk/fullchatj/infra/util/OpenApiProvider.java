@@ -12,7 +12,7 @@ import io.javalin.openapi.plugin.swagger.SwaggerPlugin;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
-public class OpenApiProvide {
+public class OpenApiProvider {
     private final Properties properties;
 
     public void setup(JavalinConfig config) {

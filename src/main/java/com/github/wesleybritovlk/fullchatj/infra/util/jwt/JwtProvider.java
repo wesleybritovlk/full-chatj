@@ -18,7 +18,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 
-public interface JwtProvide {
+public interface JwtProvider {
     AuthResponse createToken(AuthPayload.User payload);
 
     boolean isExpired(String token);
@@ -32,7 +32,7 @@ public interface JwtProvide {
 }
 
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
-class JwtProvideImpl implements JwtProvide {
+class JwtProviderImpl implements JwtProvider {
     private final Jwt jwt;
     private final Properties properties;
 
