@@ -11,8 +11,8 @@ import com.google.inject.Provides;
 public class AppModule extends AbstractModule {
     @Override
     protected void configure() {
-        bind(AppController.class).to(AppControllerImpl.class);
         bind(AppRoutes.class).to(AppRoutesImpl.class);
+        bind(AppController.class).to(AppControllerImpl.class);
         install(new UtilModule());
         install(new AuthModule());
     }

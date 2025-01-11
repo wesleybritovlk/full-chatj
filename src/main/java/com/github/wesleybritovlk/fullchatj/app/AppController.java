@@ -15,8 +15,8 @@ import lombok.RequiredArgsConstructor;
 
 public interface AppController {
 
-        @OpenApi(tags = {
-                        "App" }, path = "/", summary = "Get app information", description = "Returns general information about the app", responses = {
+        @OpenApi(path = "/", summary = "Get app information", description = "Returns general information about the app", tags = {
+                        "App" }, responses = {
                                         @OpenApiResponse(status = "200", content = @OpenApiContent(from = Response.class))
                         })
         void get(Context ctx);

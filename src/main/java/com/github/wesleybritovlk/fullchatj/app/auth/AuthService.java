@@ -6,8 +6,8 @@ import com.github.wesleybritovlk.fullchatj.app.auth.dto.AuthPayload;
 import com.github.wesleybritovlk.fullchatj.app.auth.dto.AuthRequest;
 import com.github.wesleybritovlk.fullchatj.app.auth.dto.AuthRequest.Login;
 import com.github.wesleybritovlk.fullchatj.app.auth.dto.AuthRequest.Register;
-import com.github.wesleybritovlk.fullchatj.infra.util.JwtProvider;
 import com.github.wesleybritovlk.fullchatj.app.auth.dto.AuthResponse;
+import com.github.wesleybritovlk.fullchatj.infra.util.JwtProvider;
 import com.google.inject.Inject;
 
 import lombok.RequiredArgsConstructor;
@@ -25,10 +25,20 @@ public interface AuthService {
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 class AuthServiceImpl implements AuthService {
     private final JwtProvider jwtProvider;
+    private final AuthRepository repository;
 
     @Override
     public AuthResponse login(Login request) {
         log.info("User login attempt with email: {}", request.email());
+        var authUser = AuthPayload.User.builder()
+                .email(request.email())
+                .scopes(List.of(AuthEnum.Scope.USER))
+                .build();
+        return jwtProvider.createToken(authUser);
+    }
+
+    @Override
+    public AuthResponse register(Register request) {
         var user = AuthPayload.User.builder()
                 .email(request.email())
                 .scopes(List.of(AuthEnum.Scope.USER))
@@ -37,15 +47,13 @@ class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponse register(Register request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'register'");
-    }
-
-    @Override
     public AuthResponse refreshToken(String authorization) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'refreshToken'");
+        var subject = jwtProvider.getPayloadValid(authorization).subject();
+        var user = AuthPayload.User.builder()
+                .email(subject)
+                .scopes(List.of(AuthEnum.Scope.USER))
+                .build();
+        return jwtProvider.createToken(user);
     }
 
 }

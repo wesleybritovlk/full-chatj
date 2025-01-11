@@ -34,6 +34,10 @@ class OpenApiProviderImpl implements OpenApiProvider {
                             properties.getProperty("app.contact.email"));
                 });
                 definition.withDefinitionProcessor(JsonNode::toPrettyString);
+                definition.withSecurity(securityConfig -> {
+                    securityConfig.withBearerAuth("BearerAuth");
+                    securityConfig.withGlobalSecurity("BearerAuth");
+                });
             });
         }));
         config.registerPlugin(new SwaggerPlugin(plugin -> {
