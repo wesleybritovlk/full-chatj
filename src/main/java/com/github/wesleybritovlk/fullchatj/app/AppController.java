@@ -7,18 +7,21 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.google.inject.Inject;
 
 import io.javalin.http.Context;
+import io.javalin.openapi.HttpMethod;
 import io.javalin.openapi.OpenApi;
 import io.javalin.openapi.OpenApiContent;
+import io.javalin.openapi.OpenApiExample;
 import io.javalin.openapi.OpenApiResponse;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
 public interface AppController {
 
-        @OpenApi(path = "/", summary = "Get app information", description = "Returns general information about the app", tags = {
-                        "App" }, responses = {
-                                        @OpenApiResponse(status = "200", content = @OpenApiContent(from = Response.class))
-                        })
+        @OpenApi(path = "/", methods = {
+                        HttpMethod.GET }, summary = "Get app information", description = "Returns general information about the app", tags = {
+                                        "App" }, responses = {
+                                                        @OpenApiResponse(status = "200", content = @OpenApiContent(from = Response.class))
+                                        })
         void get(Context ctx);
 
 }
@@ -42,8 +45,8 @@ class AppControllerImpl implements AppController {
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 record Response(
-                String name,
-                String version,
-                String description,
-                String documentation) {
+                @OpenApiExample(value = "API name") String name,
+                @OpenApiExample(value = "0.0.1") String version,
+                @OpenApiExample(value = "API description") String description,
+                @OpenApiExample(value = "http://localhost:8080/docs") String documentation) {
 }
