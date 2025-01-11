@@ -1,16 +1,22 @@
-package com.github.wesleybritovlk.fullchatj.infra.util.entitymanager;
+package com.github.wesleybritovlk.fullchatj.infra.util;
 
 import java.util.Map;
 import java.util.Properties;
 
 import com.google.inject.Inject;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import lombok.extern.slf4j.Slf4j;
 
 public interface EntityManagerProvider {
     void execute(EntityManagerConsumer consumer);
+
+    @FunctionalInterface
+    interface EntityManagerConsumer {
+        void accept(EntityManager entityManager);
+    }
 }
 
 @Slf4j

@@ -11,8 +11,12 @@ import io.javalin.openapi.plugin.redoc.ReDocPlugin;
 import io.javalin.openapi.plugin.swagger.SwaggerPlugin;
 import lombok.RequiredArgsConstructor;
 
+public interface OpenApiProvider {
+    void setup(JavalinConfig config);
+}
+
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
-public class OpenApiProvider {
+class OpenApiProviderImpl implements OpenApiProvider {
     private final Properties properties;
 
     public void setup(JavalinConfig config) {

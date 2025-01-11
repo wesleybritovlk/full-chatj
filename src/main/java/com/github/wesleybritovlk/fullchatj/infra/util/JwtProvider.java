@@ -1,4 +1,4 @@
-package com.github.wesleybritovlk.fullchatj.infra.util.jwt;
+package com.github.wesleybritovlk.fullchatj.infra.util;
 
 import java.util.Date;
 import java.util.Map;
@@ -16,6 +16,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
 public interface JwtProvider {
@@ -29,6 +30,11 @@ public interface JwtProvider {
 
     JwtPayload getPayloadValid(String authorization);
 
+    @Builder
+    record JwtPayload(
+            String subject,
+            Date expiration) {
+    }
 }
 
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
