@@ -7,7 +7,7 @@ import com.github.wesleybritovlk.fullchatj.app.auth.dto.AuthRequest;
 import com.github.wesleybritovlk.fullchatj.app.auth.dto.AuthRequest.Login;
 import com.github.wesleybritovlk.fullchatj.app.auth.dto.AuthRequest.Register;
 import com.github.wesleybritovlk.fullchatj.app.auth.dto.AuthResponse;
-import com.github.wesleybritovlk.fullchatj.infra.util.jwt.JwtProvide;
+import com.github.wesleybritovlk.fullchatj.infra.util.jwt.JwtProvider;
 import com.google.inject.Inject;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public interface AuthService {
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 class AuthServiceImpl implements AuthService {
-    private final JwtProvide jwtProvide;
+    private final JwtProvider jwtProvide;
 
     @Override
     public AuthResponse login(Login request) {
