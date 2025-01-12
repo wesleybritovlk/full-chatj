@@ -22,6 +22,7 @@
         <java-dotenv.version>5.2.2</java-dotenv.version>
         <eclipselink.version>4.0.5</eclipselink.version>
         <postgresql.version>42.7.4</postgresql.version>
+        <bouncycastle.version>1.79</bouncycastle.version>
         <!-- Test Dependencies -->
         <junit.version>5.11.4</junit.version>
         <mockito.version>5.15.2</mockito.version>
@@ -29,6 +30,7 @@
         <kotlin.version>2.1.0</kotlin.version>
         <jackson.version>2.18.2</jackson.version>
         <guava.version>33.4.0-jre</guava.version>
+        <checkerframework.version>3.48.4</checkerframework.version>
     </properties>
 
     <dependencies>
@@ -100,6 +102,11 @@
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>${bouncycastle.version}</version>
+        </dependency>
         <!-- Test Dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -134,6 +141,16 @@
                                     <mainClass>com.github.wesleybritovlk.fullchatj.App</mainClass>
                                 </transformer>
                             </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>
@@ -195,6 +212,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>checker-qual</artifactId>
+                <version>${checkerframework.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

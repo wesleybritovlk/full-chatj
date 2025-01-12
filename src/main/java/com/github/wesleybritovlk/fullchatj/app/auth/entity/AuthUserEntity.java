@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.github.wesleybritovlk.fullchatj.app.auth.AuthEnum;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,10 +32,13 @@ public class AuthUserEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(name = "full_name")
     private String fullName;
+    @Column(name = "birth_date")
     private LocalDate birthDate;
     private String email;
     private String password;
+    @Column(name = "avatar_url")
     private String avatarUrl;
 
     private List<UUID> scopes;
@@ -42,8 +46,12 @@ public class AuthUserEntity {
     @Enumerated(value = EnumType.STRING)
     private List<AuthEnum.Platform> platforms;
 
+    @Column(name = "created_at", updatable = false)
     private ZonedDateTime createdAt;
+    @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
+    @Column(name = "is_deleted")
     private boolean isDeleted;
+    @Column(name = "deleted_at")
     private ZonedDateTime deletedAt;
 }

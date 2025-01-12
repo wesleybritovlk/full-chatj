@@ -91,7 +91,7 @@ class JwtProviderImpl implements JwtProvider {
     @Override
     public JwtPayload getPayloadValid(String authorization) {
         var token = this.getAuthResponse(authorization).accessToken();
-        if (token.isBlank() || isExpired(token))
+        if (token == null || token.isBlank() || isExpired(token))
             throw new UnauthorizedResponse();
         return this.getPayload(token);
     }
