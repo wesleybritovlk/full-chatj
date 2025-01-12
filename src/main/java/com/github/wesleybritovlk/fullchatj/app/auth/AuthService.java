@@ -30,8 +30,8 @@ public interface AuthService {
 class AuthServiceImpl implements AuthService {
     private final JwtProvider jwtProvider;
     private final AuthRepository repository;
-    private final PasswordEncoderProvider passEncoder = PasswordEncoderProvider.getEncoder(EncoderType.BCRYPT);
-    private final PasswordEncoderProvider fakePassEncoder = PasswordEncoderProvider.getEncoder(EncoderType.SCRYPT);
+    private final PasswordEncoderProvider passEncoder = PasswordEncoderProvider.of(EncoderType.BCRYPT);
+    private final PasswordEncoderProvider fakePassEncoder = PasswordEncoderProvider.of(EncoderType.SCRYPT);
 
     @Override
     public AuthResponse login(Login request) {

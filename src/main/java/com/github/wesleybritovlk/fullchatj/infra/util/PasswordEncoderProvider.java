@@ -17,7 +17,7 @@ public interface PasswordEncoderProvider {
 
     boolean matches(CharSequence rawPassword, String encodedPassword);
 
-    static PasswordEncoderProvider getEncoder(EncoderType encoderType) {
+    static PasswordEncoderProvider of(EncoderType encoderType) {
         return switch (encoderType) {
             case BCRYPT -> new BCryptPasswordEncoderProvider();
             case SCRYPT -> new SCryptPasswordEncoderProvider();
