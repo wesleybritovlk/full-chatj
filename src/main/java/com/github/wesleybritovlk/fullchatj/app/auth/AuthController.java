@@ -14,6 +14,7 @@ import io.javalin.openapi.OpenApiRequestBody;
 import io.javalin.openapi.OpenApiResponse;
 import io.javalin.openapi.OpenApiSecurity;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import lombok.extern.slf4j.Slf4j;
 
 public interface AuthController {
@@ -54,26 +55,26 @@ class AuthControllerImpl implements AuthController {
         private final AuthService service;
 
         public void login(Context ctx) {
-                var request = ctx.bodyAsClass(AuthRequest.Login.class);
+                val request = ctx.bodyAsClass(AuthRequest.Login.class);
                 log.info("Login request received: {}", request);
-                var response = service.login(request);
-                var resource = CommonResource.toMessage("User logged successful.", response);
+                val response = service.login(request);
+                val resource = CommonResource.toMessage("User logged successful.", response);
                 ctx.json(resource);
         }
 
         public void register(Context ctx) {
-                var request = ctx.bodyAsClass(AuthRequest.Register.class);
+                val request = ctx.bodyAsClass(AuthRequest.Register.class);
                 log.info("Register request received: {}", request);
-                var response = service.register(request);
-                var resource = CommonResource.toMessage("User registered successful.", response);
+                val response = service.register(request);
+                val resource = CommonResource.toMessage("User registered successful.", response);
                 ctx.status(201).json(resource);
         }
 
         public void refreshToken(Context ctx) {
-                var authorization = ctx.header("Authorization");
+                val authorization = ctx.header("Authorization");
                 log.info("Refresh token request received: {}", authorization);
-                var response = service.refreshToken(authorization);
-                var resource = CommonResource.toData(response);
+                val response = service.refreshToken(authorization);
+                val resource = CommonResource.toData(response);
                 ctx.json(resource);
         }
 

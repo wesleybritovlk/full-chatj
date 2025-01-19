@@ -15,6 +15,7 @@ import com.google.inject.Inject;
 
 import io.javalin.http.UnauthorizedResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import lombok.extern.slf4j.Slf4j;
 
 public interface AuthService {
@@ -35,10 +36,10 @@ class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse login(Login request) {
-        var email = request.email();
+        val email = request.email();
         log.info("User login attempt with email: {}", email);
         boolean match = false;
-        var entity = repository.findByEmail(email).orElse(null);
+        val entity = repository.findByEmail(email).orElse(null);
         match = entity != null;
         if (match) {
             fakePassEncoder.matches(request.password(), entity.getPassword());
@@ -48,7 +49,7 @@ class AuthServiceImpl implements AuthService {
             log.error("User not found with email: {}", email);
             throw new UnauthorizedResponse("Invalid email or password");
         }
-        var authUser = AuthPayload.User.builder()
+        val authUser = AuthPayload.User.builder()
                 .email(request.email())
                 .scopes(List.of(AuthEnum.Scope.USER))
                 .build();
@@ -63,12 +64,12 @@ class AuthServiceImpl implements AuthService {
             throw new UnauthorizedResponse("User already registered");
         }
         fakePassEncoder.encode(request.password());
-        var passwordEncoded = passEncoder.encode(request.password());
+        val passwordEncoded = passEncoder.encode(request.password());
         repository.save(AuthUserEntity.builder()
                 .email(request.email())
                 .password(passwordEncoded)
                 .build());
-        var user = AuthPayload.User.builder()
+        val user = AuthPayload.User.builder()
                 .email(request.email())
                 .scopes(List.of(AuthEnum.Scope.USER))
                 .build();
@@ -77,13 +78,13 @@ class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse refreshToken(String authorization) {
-        var subject = jwtProvider.getPayloadValid(authorization).subject();
+        val subject = jwtProvider.getPayloadValid(authorization).subject();
         log.info("User refresh token attempt with email: {}", subject);
         if (!repository.existsByEmail(subject)) {
             log.error("User not found with email: {}", subject);
             throw new UnauthorizedResponse("User not registered");
         }
-        var user = AuthPayload.User.builder()
+        val user = AuthPayload.User.builder()
                 .email(subject)
                 .scopes(List.of(AuthEnum.Scope.USER))
                 .build();

@@ -10,6 +10,7 @@ import io.javalin.openapi.plugin.OpenApiPlugin;
 import io.javalin.openapi.plugin.redoc.ReDocPlugin;
 import io.javalin.openapi.plugin.swagger.SwaggerPlugin;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 public interface OpenApiProvider {
     void setup(JavalinConfig config);
@@ -20,7 +21,7 @@ class OpenApiProviderImpl implements OpenApiProvider {
     private final Properties properties;
 
     public void setup(JavalinConfig config) {
-        var documentationPath = "/docs/api.json";
+        val documentationPath = "/docs/api.json";
         config.registerPlugin(new OpenApiPlugin(plugin -> {
             plugin.withDocumentationPath(documentationPath);
             plugin.withDefinitionConfiguration((version, definition) -> {

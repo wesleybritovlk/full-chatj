@@ -14,6 +14,7 @@ import io.javalin.openapi.OpenApiExample;
 import io.javalin.openapi.OpenApiResponse;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 public interface AppController {
 
@@ -31,8 +32,8 @@ class AppControllerImpl implements AppController {
         private final Properties properites;
 
         public void get(Context ctx) {
-                var currentUrl = "%s%s".formatted(ctx.url(), properites.getProperty("app.docsPath"));
-                var response = Response.builder()
+                val currentUrl = "%s%s".formatted(ctx.url(), properites.getProperty("app.docsPath"));
+                val response = Response.builder()
                                 .name(properites.getProperty("app.name"))
                                 .version(properites.getProperty("app.version"))
                                 .description(properites.getProperty("app.description"))

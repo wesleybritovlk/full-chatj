@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import lombok.extern.slf4j.Slf4j;
 
 public interface AuthRepository {
@@ -18,14 +19,13 @@ public interface AuthRepository {
 }
 
 @Slf4j
-@SuppressWarnings("unchecked")
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 class AuthRepositoryImpl implements AuthRepository {
     private final EntityManager em;
 
     @Override
     public AuthUserEntity save(AuthUserEntity entity) {
-        var transaction = em.getTransaction();
+        val transaction = em.getTransaction();
         try {
             transaction.begin();
             em.persist(entity);
@@ -41,8 +41,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
     @Override
     public Optional<AuthUserEntity> findByEmail(String email) {
-        var entity = new Optional[] { Optional.empty() };
-        var query = em.createNativeQuery("""
+        val query = em.createNativeQuery("""
                 SELECT *
                 FROM auth.tb_auth_user
                 WHERE email = ?
@@ -50,16 +49,15 @@ class AuthRepositoryImpl implements AuthRepository {
                 """, AuthUserEntity.class);
         query.setParameter(1, email);
         try {
-            entity[0] = Optional.ofNullable((AuthUserEntity) query.getSingleResult());
+            return Optional.ofNullable((AuthUserEntity) query.getSingleResult());
         } catch (Exception e) {
             log.error("Error while finding user by email: {}", email, e.getMessage());
+            return Optional.empty();
         }
-        return entity[0];
     }
 
     public boolean existsByEmail(String email) {
-        var exists = new boolean[] { false };
-        var query = em.createNativeQuery("""
+        val query = em.createNativeQuery("""
                 SELECT EXISTS(
                     SELECT 1
                     FROM auth.tb_auth_user
@@ -68,8 +66,7 @@ class AuthRepositoryImpl implements AuthRepository {
                 )
                 """);
         query.setParameter(1, email);
-        exists[0] = (boolean) query.getSingleResult();
-        return exists[0];
+        return (boolean) query.getSingleResult();
     }
 
 }

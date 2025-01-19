@@ -18,6 +18,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 public interface JwtProvider {
     AuthResponse createToken(AuthPayload.User payload);
@@ -45,9 +46,9 @@ class JwtProviderImpl implements JwtProvider {
     private static final String TOKEN_PREFIX = "Bearer ";
 
     public AuthResponse createToken(AuthPayload.User request) {
-        var claims = Map.of("scope", (Object) request.scopes());
-        var token = jwt.buildToken(claims, request.email());
-        var expiration = Long.parseLong(properties.getProperty("jwt.expiration"));
+        val claims = Map.of("scope", (Object) request.scopes());
+        val token = jwt.buildToken(claims, request.email());
+        val expiration = Long.parseLong(properties.getProperty("jwt.expiration"));
         return AuthResponse.builder()
                 .accessToken(token)
                 .expiresIn(expiration)
@@ -67,9 +68,9 @@ class JwtProviderImpl implements JwtProvider {
 
     @Override
     public AuthResponse getAuthResponse(String authorization) {
-        var token = authorization != null ? authorization.substring(TOKEN_PREFIX.length()) : null;
+        val token = authorization != null ? authorization.substring(TOKEN_PREFIX.length()) : null;
         if (!isExpired(token)) {
-            var expiration = jwt.getClaim(token, Claims::getExpiration).toInstant();
+            val expiration = jwt.getClaim(token, Claims::getExpiration).toInstant();
             return AuthResponse.builder()
                     .accessToken(token)
                     .expiresIn(expiration.toEpochMilli())
@@ -80,8 +81,8 @@ class JwtProviderImpl implements JwtProvider {
 
     @Override
     public JwtPayload getPayload(String token) {
-        var subject = jwt.getClaim(token, Claims::getSubject);
-        var expiration = jwt.getClaim(token, Claims::getExpiration);
+        val subject = jwt.getClaim(token, Claims::getSubject);
+        val expiration = jwt.getClaim(token, Claims::getExpiration);
         return JwtPayload.builder()
                 .subject(subject)
                 .expiration(expiration)
@@ -90,7 +91,7 @@ class JwtProviderImpl implements JwtProvider {
 
     @Override
     public JwtPayload getPayloadValid(String authorization) {
-        var token = this.getAuthResponse(authorization).accessToken();
+        val token = this.getAuthResponse(authorization).accessToken();
         if (token == null || token.isBlank() || isExpired(token))
             throw new UnauthorizedResponse();
         return this.getPayload(token);
@@ -103,24 +104,24 @@ class Jwt {
     private final Properties properties;
 
     private SecretKey secretKey() {
-        var secret = properties.getProperty("jwt.secret");
-        var base64 = Decoders.BASE64.decode(secret);
+        val secret = properties.getProperty("jwt.secret");
+        val base64 = Decoders.BASE64.decode(secret);
         return Keys.hmacShaKeyFor(base64);
     }
 
     private Claims extractClaims(String token) {
-        var jwtParser = Jwts.parser().verifyWith(secretKey()).build();
-        var signedClaims = jwtParser.parseSignedClaims(token);
+        val jwtParser = Jwts.parser().verifyWith(secretKey()).build();
+        val signedClaims = jwtParser.parseSignedClaims(token);
         return signedClaims.getPayload();
     }
 
     protected <T> T getClaim(String token, Function<Claims, T> claimsResolver) {
-        var claims = extractClaims(token);
+        val claims = extractClaims(token);
         return claimsResolver.apply(claims);
     }
 
     protected String buildToken(Map<String, Object> claims, String subject) {
-        var expiration = Long.parseLong(properties.getProperty("jwt.expiration"));
+        val expiration = Long.parseLong(properties.getProperty("jwt.expiration"));
         return Jwts.builder()
                 .subject(subject)
                 .claims(claims)

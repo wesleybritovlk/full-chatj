@@ -10,6 +10,7 @@ import org.bouncycastle.util.encoders.Hex;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.val;
 
 public interface PasswordEncoderProvider {
 
@@ -40,23 +41,23 @@ class SCryptPasswordEncoderProvider implements PasswordEncoderProvider {
 
     @Override
     public String encode(CharSequence rawPassword) {
-        var salt = new byte[DEFAULT_SALT_LENGTH];
+        val salt = new byte[DEFAULT_SALT_LENGTH];
         RANDOM.nextBytes(salt);
-        var generatedHash = getHash(rawPassword, salt);
+        val generatedHash = getHash(rawPassword, salt);
         return "%s$%s".formatted(Hex.toHexString(salt), Hex.toHexString(generatedHash));
     }
 
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        var parts = encodedPassword.split("\\$");
-        var salt = Hex.decode(parts[0]);
-        var storedHashBytes = Hex.decode(parts[1]);
-        var computedHash = this.getHash(rawPassword, salt);
+        val parts = encodedPassword.split("\\$");
+        val salt = Hex.decode(parts[0]);
+        val storedHashBytes = Hex.decode(parts[1]);
+        val computedHash = this.getHash(rawPassword, salt);
         return Arrays.equals(storedHashBytes, computedHash);
     }
 
     private byte[] getHash(CharSequence rawPassword, byte[] salt) {
-        var passwordBytes = rawPassword.toString().getBytes(StandardCharsets.UTF_8);
+        val passwordBytes = rawPassword.toString().getBytes(StandardCharsets.UTF_8);
         return SCrypt.generate(passwordBytes, salt, DEFAULT_CPU_COST, DEFAULT_MEMORY_COST,
                 DEFAULT_PARALLELISM, DEFAULT_KEY_LENGTH);
     }
@@ -70,23 +71,23 @@ class BCryptPasswordEncoderProvider implements PasswordEncoderProvider {
 
     @Override
     public String encode(CharSequence rawPassword) {
-        var salt = new byte[DEFAULT_SALT_LENGTH];
+        val salt = new byte[DEFAULT_SALT_LENGTH];
         RANDOM.nextBytes(salt);
-        var generatedHash = getHash(rawPassword, salt);
+        val generatedHash = getHash(rawPassword, salt);
         return "%s$%s".formatted(Hex.toHexString(salt), Hex.toHexString(generatedHash));
     }
 
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        var parts = encodedPassword.split("\\$");
-        var salt = Hex.decode(parts[0]);
-        var storedHashBytes = Hex.decode(parts[1]);
-        var computedHash = this.getHash(rawPassword, salt);
+        val parts = encodedPassword.split("\\$");
+        val salt = Hex.decode(parts[0]);
+        val storedHashBytes = Hex.decode(parts[1]);
+        val computedHash = this.getHash(rawPassword, salt);
         return Arrays.equals(storedHashBytes, computedHash);
     }
 
     private byte[] getHash(CharSequence rawPassword, byte[] salt) {
-        var passwordBytes = rawPassword.toString().getBytes(StandardCharsets.UTF_8);
+        val passwordBytes = rawPassword.toString().getBytes(StandardCharsets.UTF_8);
         return BCrypt.generate(passwordBytes, salt, DEFAULT_COST);
     }
 
