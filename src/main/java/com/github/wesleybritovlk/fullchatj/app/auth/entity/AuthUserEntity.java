@@ -5,9 +5,11 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.github.wesleybritovlk.fullchatj.app.auth.AuthEnum;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,29 +31,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class AuthUserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
-    @Column(name = "full_name")
+    private String avatarUrl;
     private String fullName;
-    @Column(name = "birth_date")
     private LocalDate birthDate;
     private String email;
     private String password;
-    @Column(name = "avatar_url")
-    private String avatarUrl;
 
-    private List<UUID> scopes;
-    private List<UUID> providers;
+    private List<String> scopes;
+
+    private List<String> providers;
+
     @Enumerated(value = EnumType.STRING)
     private List<AuthEnum.Platform> platforms;
 
-    @Column(name = "created_at", updatable = false)
+    @CreationTimestamp
     private ZonedDateTime createdAt;
-    @Column(name = "updated_at")
+    @UpdateTimestamp
     private ZonedDateTime updatedAt;
-    @Column(name = "is_deleted")
     private boolean isDeleted;
-    @Column(name = "deleted_at")
     private ZonedDateTime deletedAt;
 }

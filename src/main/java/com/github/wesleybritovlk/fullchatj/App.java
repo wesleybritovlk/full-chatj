@@ -11,9 +11,7 @@ import lombok.val;
 public class App {
     public static void main(String[] args) {
         val injector = Guice.createInjector(new AppModule());
-        val app = Javalin.create(config -> {
-            injector.getInstance(OpenApiProvider.class).setup(config);
-        }).start();
+        val app = Javalin.create(config -> injector.getInstance(OpenApiProvider.class).setup(config)).start();
         injector.getInstance(AppRoutes.class).setup(app);
     }
 }
