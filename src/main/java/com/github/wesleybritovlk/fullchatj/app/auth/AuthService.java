@@ -8,9 +8,9 @@ import com.github.wesleybritovlk.fullchatj.app.auth.dto.AuthRequest.Login;
 import com.github.wesleybritovlk.fullchatj.app.auth.dto.AuthRequest.Register;
 import com.github.wesleybritovlk.fullchatj.app.auth.dto.AuthResponse;
 import com.github.wesleybritovlk.fullchatj.app.auth.entity.AuthUserEntity;
-import com.github.wesleybritovlk.fullchatj.infra.util.JwtProvider;
-import com.github.wesleybritovlk.fullchatj.infra.util.PasswordEncoderProvider;
-import com.github.wesleybritovlk.fullchatj.infra.util.PasswordEncoderProvider.EncoderType;
+import com.github.wesleybritovlk.fullchatj.infra.JwtProvider;
+import com.github.wesleybritovlk.fullchatj.infra.PasswordEncoderProvider;
+import com.github.wesleybritovlk.fullchatj.infra.PasswordEncoderProvider.EncoderType;
 import com.google.inject.Inject;
 
 import io.javalin.http.UnauthorizedResponse;

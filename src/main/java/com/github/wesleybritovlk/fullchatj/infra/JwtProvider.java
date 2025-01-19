@@ -1,4 +1,4 @@
-package com.github.wesleybritovlk.fullchatj.infra.util;
+package com.github.wesleybritovlk.fullchatj.infra;
 
 import java.util.Date;
 import java.util.Map;
