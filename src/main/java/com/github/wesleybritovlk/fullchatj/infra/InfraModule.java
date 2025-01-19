@@ -4,6 +4,8 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import org.flywaydb.core.Flyway;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
@@ -14,10 +16,11 @@ public class InfraModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        bind(Properties.class).toProvider(PropertiesProvider.class);
+        bind(Flyway.class).toProvider(FlywayProvider.class);
+        bind(EntityManagerFactory.class).toProvider(EntityManagerProvider.class);
         bind(OpenApiProvider.class).to(OpenApiProviderImpl.class);
         bind(JwtProvider.class).to(JwtProviderImpl.class);
-        bind(EntityManagerFactory.class).toProvider(EntityManagerProvider.class);
-        bind(Properties.class).toProvider(PropertiesProvider.class);
     }
 
     @Provides
@@ -29,4 +32,5 @@ public class InfraModule extends AbstractModule {
     EntityManager provideEntityManager(EntityManagerFactory entityManagerFactory) {
         return entityManagerFactory.createEntityManager();
     }
+
 }

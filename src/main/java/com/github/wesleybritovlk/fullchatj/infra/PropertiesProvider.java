@@ -7,7 +7,9 @@ import com.google.inject.Provider;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import lombok.val;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class PropertiesProvider implements Provider<Properties> {
 
     @Override
@@ -19,18 +21,28 @@ public class PropertiesProvider implements Provider<Properties> {
                 throw new IOException("Unable to find application.properties");
             properties.load(input);
         } catch (IOException e) {
+            log.error("Failed to load application properties: {}", e.getMessage());
             throw new RuntimeException("Failed to load application properties", e);
         }
-        properties.stringPropertyNames().forEach(key -> {
-            val property = properties.getProperty(key);
-            if (property != null && property.startsWith("${") && property.endsWith("}")) {
-                val envKey = property.substring(2, property.length() - 1);
-                val envValue = dotenv.get(envKey);
-                if (envValue == null)
-                    throw new RuntimeException("Environment valiable " + envKey + " not found in .env file");
-                properties.setProperty(key, envValue);
+        properties.forEach((key, value) -> {
+            if (value instanceof String) {
+                properties.setProperty((String) key, resolveProperty((String) value, dotenv));
             }
         });
         return properties;
+    }
+
+    private String resolveProperty(String value, Dotenv dotenv) {
+        String resolvedValue = value;
+        while (resolvedValue.contains("${")) {
+            val start = resolvedValue.indexOf("${");
+            val end = resolvedValue.indexOf("}", start);
+            val key = resolvedValue.substring(start + 2, end);
+            val envValue = dotenv.get(key);
+            if (envValue == null)
+                throw new RuntimeException("Environment variable " + key + " not found in .env file");
+            resolvedValue = resolvedValue.substring(0, start) + envValue + resolvedValue.substring(end + 1);
+        }
+        return resolvedValue;
     }
 }
